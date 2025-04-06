@@ -7,7 +7,15 @@ That was my case!<br><br>
 So, here is my reminder for myself and everyone finding it.<br><br>
 My article will try to cover the steps starting from your base distro, to a 2 stage cross compiler building, to finally be able to cross-compile for target aarch64-none-elf with newlib from a x86_64 build host.<br><br>
 The native distro gcc will be your bootstrap compiler and the native distro glibc will be the stage 1 library. Than, we will build binutils cross x86_64<->aarch64 to make the stage 1 compiler. Next we will build the stage 2 newlib library and finally build the stage 2 compiler with the help of the stage 1 compiler and stage 2 newlib. <br><br>
-A complete from scratch toolchain as the following steps : - 1. make linker and assembler for your host build - 2. make a bootstrap compiler - 3. make stage 1 library for headers - 4. make linker and assembler for your target - 5. make stage 1 cross-compiler - 6. make stage 2 cross-library for libs and headers - 7. make stage 2 cross-compiler.<br><br>
+A complete from scratch toolchain as the following steps :
+- 1. make linker and assembler for your host build
+- 2. make a bootstrap compiler
+- 3. make stage 1 library for headers
+- 4. make linker and assembler for your target
+- 5. make stage 1 cross-compiler
+- 6. make stage 2 cross-library for libs and headers
+- 7. make stage 2 cross-compiler.<br><br>
+
 Since we need a toolchain from scratch but starting from an official distro, steps 1 to 3 are already make! :) <br><br>
 All stage 2 resources are what you need to cross-compile sources code from your host build machine to your target.<br><br>
 Additionnally, each cross build output give you tools for your host build architecture and your target architecture.<br><br>
