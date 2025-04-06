@@ -46,7 +46,7 @@ I like to download sources with wget! :)
 ```bash
 wget https://ftp.gnu.org/gnu/binutils/binutils-2.44.tar.xz
 wget https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz
-wget https://ftp.gnu.org/gnu/gmp-6.3.0.tar.xz
+wget https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
 wget https://repo.or.cz/isl.git/snapshot/80035e4c3fcbebf13a70752111f03d48a5e46dda.tar.gz
 wget https://github.com/libexpat/libexpat/releases/download/R_2_7_1/expat-2.7.1.tar.gz
 wget https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.2.tar.xz
