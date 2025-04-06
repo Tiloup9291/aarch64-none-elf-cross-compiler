@@ -81,6 +81,7 @@ Inside the folder of each resource, add a build folder for the configuration and
 
 ---
 # Building the toolchain
+Do note that in the follow step i use the home character ~, but each prefix must be an absolute path.<br>
 ## 1. GMP
 Change directory to the build directory of your GMP.<br>
 My configuration was : `../configure --disable-maintainer-mode --disable-shared --prefix=~/cross-compiler/host-tools --host=x86_64-none-linux-gnu`<br>
@@ -99,6 +100,7 @@ MPC will be install in the host-tools directory of the toolchain.
 ## 4. ISL
 Change directory to the root extracted folder of ISL. ISL probably need you to run his autogen script : `./autogen.sh`<br>
 Additionnaly, i had to add a flag (LT_INIT) in the configure.ac script initialization section.<br>
+It is possible you have to run `aclocal && autoconf && automake --add-missing`<br>
 Change directory to the build directory of your ISL.<br>
 My configuration was : `../configure -disable-maintainer-mode --disable-shared --prefix=~/cross-compiler/host-tools --with-gmp-prefix=~/cross-compiler/host-tools`<br>
 Than build : `make -j$(nproc) && make install && make distclean && rm -rf config.cache`<br>
