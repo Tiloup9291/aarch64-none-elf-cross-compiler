@@ -1,7 +1,17 @@
 # aarch64-none-elf-cross-compiler
 YAACCT, Yet Another Aarch64 Cross-Compiler Toolchain.
 ## Preamble
-Yes, you might ask yourself why you fall again on another aarch64-non-elf cross-compiler. Well, i had a need to build code for an aarch64 cpu running baremetal from my development PC with x86_64. I also need a lesser standard C library, so the choice fall for newlib. My development PC use a standard Linux Distro (Fedora). And also, i was starting from scratch. I followed a lot of tutorials only to realized they don't work for my case or are broken. A lot of them consider your are already running with newlib from your build host. What about it is not? That was my case! So, here is my reminder for myself and everyone finding it. My article will try to cover the steps starting from your base distro, to a 2 stage cross compiler building, to finally be able to cross-compile for target aarch64-none-elf with newlib from a x86_64 build host. The native distro gcc will be your bootstrap compiler and the native distro glibc will be the stage 1 library. Than, we will build binutils cross x86_64<->aarch64 to make the stage 1 compiler. Next we will build the stage 2 newlib library and finally build the stage 2 compiler with th help of the stage 1 compiler and stage 2 newlib. A complete from scratch toolchain as the following steps : 1. make linker and assembler for your host build 2. make a bootstrap compiler 3. make stage 1 library for headers 4. make linker and assembler for your target 5. make stage 1 cross-compiler 6. make stage 2 cross-library for libs and headers 7. make stage 2 cross-compiler. Since we need a toolchain from scratch but starting from an official distro, steps 1 to 3 are already make! :)  All stage 2 resources is what you need to cross-compile sources code from your host build machine to your target. Additionnally, each cross build output give you tools for your host build architecture and your target architecture. So, instead of a three entities toolchain: build machine - host machine - target machine, we have a two entities toolchain : build and host machine - target machine.
+Yes, you might ask yourself why you fall again on another aarch64-non-elf cross-compiler. Well, i had a need to build code for an aarch64 cpu running baremetal from my development PC with x86_64. I also need a lesser standard C library, so the choice fall for newlib.<br><br>
+My development PC use a standard Linux Distro (Fedora). And also, i was starting from scratch. I followed a lot of tutorials only to realized they don't work for my case or are broken. A lot of them consider you are already running with newlib from your build host. What about it is not?<br><br>
+That was my case!<br><br>
+So, here is my reminder for myself and everyone finding it.<br><br>
+My article will try to cover the steps starting from your base distro, to a 2 stage cross compiler building, to finally be able to cross-compile for target aarch64-none-elf with newlib from a x86_64 build host.<br><br>
+The native distro gcc will be your bootstrap compiler and the native distro glibc will be the stage 1 library. Than, we will build binutils cross x86_64<->aarch64 to make the stage 1 compiler. Next we will build the stage 2 newlib library and finally build the stage 2 compiler with the help of the stage 1 compiler and stage 2 newlib. <br><br>
+A complete from scratch toolchain as the following steps : - 1. make linker and assembler for your host build - 2. make a bootstrap compiler - 3. make stage 1 library for headers - 4. make linker and assembler for your target - 5. make stage 1 cross-compiler - 6. make stage 2 cross-library for libs and headers - 7. make stage 2 cross-compiler.<br><br>
+Since we need a toolchain from scratch but starting from an official distro, steps 1 to 3 are already make! :) <br><br>
+All stage 2 resources are what you need to cross-compile sources code from your host build machine to your target.<br><br>
+Additionnally, each cross build output give you tools for your host build architecture and your target architecture.<br><br>
+So, instead of a three entities toolchain: build machine - host machine - target machine, we have a two entities toolchain : build and host machine - target machine.
 
 ## Prerequisites and compatibilities
 To initially follow my architecture :<br>
@@ -85,7 +95,7 @@ Change directory to the build directory of your ISL.<br>
 My configuration was : `../configure -disable-maintainer-mode --disable-shared --prefix=~/cross-compiler/host-tools --with-gmp-prefix=~/cross-compiler/host-tools`<br>
 Than build : `make -j$(nproc) && make install && make distclean && rm -rf config.cache`<br>
 ISL will be install in the host-tools directory of the toolchain.
-## 5. binutils (the fun begin here)
+## 5. BINUTILS (the fun begin here)
 Change directory to the build directory of your BINUTILS.<br>
 My configuration was : `-enable-64-bit-bfd --enable-targets=arm-none-eabi,aarch64-none-linux-gnu,aarch64-none-elf --enable-initfini-array --disable-nls --without-x --disable-gdbtk --without-tcl --without-tk --enable-plugins --disable-gdb --without-gdb --target=aarch64-none-elf --prefix=~/cross-compiler/build --with-bugurl="JohnDoe" --with-sysroot=~/cross-compiler/build/aarch64-none-elf --without-debuginfod`<br>
 Than build : `make -j$(nproc) && make install && make distclean && rm -rf config.cache`<br>
@@ -115,7 +125,7 @@ GCC will be install in the build directory of the toolchain.
 
 ---
 # Test
-Make a simpler hello.c text file with  and compile with `aarch64-none-elf-gcc hello.c -o hello`:
+Make a simple hello.c text file and compile with `aarch64-none-elf-gcc hello.c -o hello`:
 ```c
 #include <stdio.h>
 
@@ -145,4 +155,4 @@ int main() {
 }
 ```
 Compile and don't add process control : `aarch64-none-elf-gcc hello.c -o hello -nostartfiles`
-Boom! Compiled! Complete! Yes? Well, no! You still make a syscall 64 with svc. so, i hope you have a supervior function that can manage this call or an OS. You now have 3 choices : 1. implement newlib syscall baremetal or OS API dependant 2. use inline assembly baremetal or OS API dependant 3. make an OS. The good news is the cross-compiler works! See you next time. ;)
+Boom! Compiled! Complete! Yes? Well, no! You still make a syscall 64 with svc. So, i hope you have a supervior function that can manage this call or an OS. You now have 3 choices : 1. implement newlib syscall baremetal or OS API dependant 2. use inline assembly baremetal or OS API dependant 3. make an OS. The good news is the cross-compiler works! See you next time. ;)
