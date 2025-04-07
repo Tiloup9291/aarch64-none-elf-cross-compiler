@@ -2,7 +2,7 @@
 YAACCT, Yet Another Aarch64 Cross-Compiler Toolchain.
 ## Preamble
 Yes, you might ask yourself why you fall again on another aarch64-non-elf cross-compiler. Well, i had a need to build code for an aarch64 cpu running baremetal from my development PC with x86_64. I also need a lesser standard C library, so the choice fall for newlib.<br><br>
-My development PC use a standard Linux Distro (Fedora). And also, i was starting from scratch. I followed a lot of tutorials only to realized they don't work for my case or are broken. A lot of them consider you are already running with newlib from your build host. What about it is not?<br><br>
+My development PC use a standard Linux Distro (Fedora). And also, i was starting from scratch. I followed a lot of tutorials only to realized they don't work for my case. A lot of them consider you are already running with newlib from your build host. What about it is not?<br><br>
 That was my case!<br><br>
 So, here is my reminder for myself and everyone finding it.<br><br>
 My article will try to cover the steps starting from your base distro, to a 2 stage cross compiler building, to finally be able to cross-compile for target aarch64-none-elf with newlib from a x86_64 build host.<br><br>
